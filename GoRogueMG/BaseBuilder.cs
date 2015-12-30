@@ -18,7 +18,7 @@ namespace GoRogueMG
         GameStateManager GSM;
         Sockets socket;
 
-        public static Vector2 PlayerPosition;
+        public static Vector2 PlayerPosition, camMin, camMax;
 
         private FramesPerSecondCounter _frameCounter;
         private Camera2D camera;
@@ -30,6 +30,9 @@ namespace GoRogueMG
             graphics.IsFullScreen = false;
             IsMouseVisible = true;
             Window.Title = "GoRouge";
+
+            graphics.PreferredBackBufferWidth = 800;
+            graphics.PreferredBackBufferHeight = 480;
         }
 
         /// <summary>
@@ -44,7 +47,7 @@ namespace GoRogueMG
             GSM = new GameStateManager();
             socket = new Sockets();
 
-            viewport = new BoxingViewportAdapter( graphics.GraphicsDevice, 800, 480 );
+            viewport = new ScalingViewportAdapter( graphics.GraphicsDevice, 800, 480 );
             camera = new Camera2D( viewport ) {
                 MinimumZoom = 0.1f,
                 MaximumZoom = 2.0f,
@@ -96,6 +99,13 @@ namespace GoRogueMG
             }
 
             GSM.Update( gameTime );
+
+            if ( Keyboard.GetState().IsKeyDown( Keys.Space ) ) {
+                System.Console.WriteLine( viewport.ViewportWidth );
+            }
+
+            camMin = camera.ScreenToWorld( new Vector2( -65, -65 ) );
+            camMax = camera.ScreenToWorld( new Vector2( viewport.ViewportWidth + 32, viewport.ViewportHeight + 32 ) );
 
             // TODO: Add your update logic here            
             base.Update( gameTime );

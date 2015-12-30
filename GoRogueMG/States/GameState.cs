@@ -11,7 +11,7 @@ namespace GoRogueMG
     {
         Camera2D camera;
         private TileMap map;
-        private Vector2 movement, camMin, camMax;
+        private Vector2 movement;
         KeyboardState keyboardState, oldKeyboardState;
         bool moving;
         List<TileType> BlockingTiles;
@@ -33,12 +33,12 @@ namespace GoRogueMG
         public override void Update( GameTime gameTime ) {
             float deltaSeconds = (float)gameTime.ElapsedGameTime.TotalSeconds;
             keyboardState = Keyboard.GetState();
+            MouseState mouse = Mouse.GetState();
 
             movement = BaseBuilder.PlayerPosition;
 
-            // Camera bounds
-            camMin = camera.ScreenToWorld( new Vector2( -64, -64 ) );
-            camMax = camera.ScreenToWorld( new Vector2( 832, 512 ) );
+            if ( mouse.LeftButton == ButtonState.Pressed )
+                System.Console.WriteLine( string.Format( "{0},{1}", mouse.X, mouse.Y ) );
 
             // camera
             if ( keyboardState.IsKeyDown( Keys.R ) )
@@ -84,7 +84,7 @@ namespace GoRogueMG
 
         public override void Draw( SpriteBatch sb, GameTime gameTime ) {
             foreach ( var tile in map.Tiles ) {
-                if ( tile.X > camMin.X && tile.X < camMax.X && tile.Y > camMin.Y && tile.Y < camMax.Y )
+                if ( tile.X > BaseBuilder.camMin.X && tile.X < BaseBuilder.camMax.X && tile.Y > BaseBuilder.camMin.Y && tile.Y < BaseBuilder.camMax.Y )
                     sb.Draw( Assets.tileTextures[ tile.Type ], tile.Position, Color.White );
             }
 
