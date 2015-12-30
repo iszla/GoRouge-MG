@@ -16,6 +16,9 @@ namespace GoRogueMG
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         GameStateManager GSM;
+        Sockets socket;
+
+        public static Vector2 PlayerPosition;
 
         private FramesPerSecondCounter _frameCounter;
         private Camera2D camera;
@@ -39,6 +42,7 @@ namespace GoRogueMG
             _frameCounter = new FramesPerSecondCounter();
 
             GSM = new GameStateManager();
+            socket = new Sockets();
 
             viewport = new BoxingViewportAdapter( graphics.GraphicsDevice, 800, 480 );
             camera = new Camera2D( viewport ) {
@@ -52,6 +56,19 @@ namespace GoRogueMG
             Window.AllowUserResizing = true;
 
             GSM.PushState( new GameState( GSM, camera ) );
+
+            while ( true ) {
+                if ( socket.message == null ) {
+                    continue;
+                }
+                else {
+                    PlayerPosition = new Vector2( (int)socket.message[ "X" ] * 32, (int)socket.message[ "Y" ] * 32 );
+                    camera.LookAt( PlayerPosition );
+
+                    Sockets.token = (string)socket.message[ "Token" ];
+                    break;
+                }
+            }
 
             base.Initialize();
         }
@@ -96,7 +113,8 @@ namespace GoRogueMG
 
             GSM.Draw( spriteBatch, gameTime );
 
-            spriteBatch.DrawString( Assets.font, string.Format( "FPS: {0}", _frameCounter.CurrentFramesPerSecond ), new Vector2( camera.Position.X, camera.Position.Y ), Color.White );
+            spriteBatch.DrawString( Assets.font, string.Format( "FPS: {0} X: {1} Y: {2}", _frameCounter.CurrentFramesPerSecond, camera.Position.X / 32, camera.Position.Y / 32 ),
+                                    new Vector2( camera.Position.X, camera.Position.Y ), Color.White );
             spriteBatch.End();
             base.Draw( gameTime );
         }

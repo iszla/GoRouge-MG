@@ -7,9 +7,8 @@ namespace GoRogueMG
 {
     public class Assets
     {
-        //public static Texture2D example;
         public static SpriteFont font;
-        public static TiledMap tileMap;
+        public static Texture2D player;
 
         // Tile textures
         public static Dictionary<TileType, Texture2D> tileTextures;
@@ -28,6 +27,7 @@ namespace GoRogueMG
                 ShallowWater = content.Load<Texture2D>( "Tiles/ShallowWater" );
                 Beach = content.Load<Texture2D>( "Tiles/Beach" );
                 Grass = content.Load<Texture2D>( "Tiles/Grass" );
+                player = content.Load<Texture2D>( "Tiles/Player" );
                 break;
             default:
                 break;

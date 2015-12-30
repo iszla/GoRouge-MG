@@ -64,6 +64,9 @@
     <Reference Include="MonoGame.Extended">
       <HintPath>..\packages\MonoGame.Extended.0.4.64\lib\MonoGame.Extended.dll</HintPath>
     </Reference>
+    <Reference Include="websocket-sharp">
+      <HintPath>..\packages\WebSocketSharp.1.0.3-rc9\lib\websocket-sharp.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />
@@ -85,6 +88,7 @@
     <Compile Include="States\GameStateManager.cs" />
     <Compile Include="States\BaseState.cs" />
     <Compile Include="States\GameState.cs" />
+    <Compile Include="Utils\Sockets.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -118,6 +122,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </BundleResource>
     <BundleResource Include="Content\Tiles\island_tiles.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </BundleResource>
+    <BundleResource Include="Content\Tiles\Player.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </BundleResource>
   </ItemGroup>
